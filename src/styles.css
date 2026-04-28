@@ -17,8 +17,10 @@ body {
   background: #ffffff;
 }
 
-a {
-  color: inherit;
+@layer base {
+  a {
+    color: inherit;
+  }
 }
 
 .container-tight {
