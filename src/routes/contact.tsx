@@ -9,19 +9,12 @@ export const Route = createFileRoute('/contact')({
 const PHONE_DISPLAY = '07989 210584'
 const PHONE_TEL = '+447989210584'
 
-function encode(data: Record<string, string>) {
-  return Object.entries(data)
-    .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
-    .join('&')
-}
-
 function ContactPage() {
   const [fields, setFields] = useState({
     name: '',
     email: '',
     phone: '',
     message: '',
-    'bot-field': '',
   })
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
@@ -33,11 +26,14 @@ function ContactPage() {
     e.preventDefault()
     setStatus('submitting')
     try {
-      const res = await fetch('/__forms.html', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'contact', ...fields }),
-      })
+      const res = await fetch(
+        `https://formspree.io/f/${import.meta.env.VITE_FORMSPREE_CONTACT_ID}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fields),
+        },
+      )
       if (!res.ok) throw new Error('Submission failed')
       setStatus('success')
     } catch {
@@ -95,25 +91,9 @@ function ContactPage() {
                 </div>
               ) : (
                 <form
-                  name="contact"
-                  method="POST"
-                  data-netlify="true"
-                  data-netlify-honeypot="bot-field"
                   onSubmit={handleSubmit}
                   className="space-y-4"
                 >
-                  <input type="hidden" name="form-name" value="contact" />
-                  <p className="hidden">
-                    <label>
-                      Don't fill this out:{' '}
-                      <input
-                        name="bot-field"
-                        value={fields['bot-field']}
-                        onChange={handleChange}
-                      />
-                    </label>
-                  </p>
-
                   <Field
                     label="Your name"
                     name="name"

@@ -9,12 +9,6 @@ export const Route = createFileRoute('/book')({
 const PHONE_DISPLAY = '07989 210584'
 const PHONE_TEL = '+447989210584'
 
-function encode(data: Record<string, string>) {
-  return Object.entries(data)
-    .map(([key, val]) => `${encodeURIComponent(key)}=${encodeURIComponent(val)}`)
-    .join('&')
-}
-
 const services = [
   'Domestic Window Cleaning',
   'Commercial Window Cleaning',
@@ -35,7 +29,6 @@ function BookPage() {
     frequency: frequencies[0],
     preferredDate: '',
     notes: '',
-    'bot-field': '',
   })
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
@@ -47,11 +40,14 @@ function BookPage() {
     e.preventDefault()
     setStatus('submitting')
     try {
-      const res = await fetch('/__forms.html', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: encode({ 'form-name': 'booking', ...fields }),
-      })
+      const res = await fetch(
+        `https://formspree.io/f/${import.meta.env.VITE_FORMSPREE_BOOKING_ID}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(fields),
+        },
+      )
       if (!res.ok) throw new Error('Submission failed')
       setStatus('success')
     } catch {
@@ -90,25 +86,9 @@ function BookPage() {
               </div>
             ) : (
               <form
-                name="booking"
-                method="POST"
-                data-netlify="true"
-                data-netlify-honeypot="bot-field"
                 onSubmit={handleSubmit}
                 className="space-y-5"
               >
-                <input type="hidden" name="form-name" value="booking" />
-                <p className="hidden">
-                  <label>
-                    Don't fill this out:{' '}
-                    <input
-                      name="bot-field"
-                      value={fields['bot-field']}
-                      onChange={handleChange}
-                    />
-                  </label>
-                </p>
-
                 <div className="grid gap-5 sm:grid-cols-2">
                   <Field
                     label="Your name"
