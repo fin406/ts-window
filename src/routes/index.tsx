@@ -47,7 +47,7 @@ function HomePage() {
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                   <Link
-                    to="/book"
+                    to="/contact"
                     className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--brand-blue)] px-6 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-blue-dark)]"
                   >
                     Book a clean
@@ -164,7 +164,7 @@ function HomePage() {
             </p>
             <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Link
-                to="/book"
+                to="/contact"
                 className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-sm font-semibold shadow-sm transition hover:bg-slate-100"
                 style={{ color: '#1e60a8' }}
               >

@@ -30,7 +30,6 @@ const navLinks = [
   { to: '/services', label: 'Services' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },
-  { to: '/book', label: 'Book' },
 ] as const
 
 function RootComponent() {

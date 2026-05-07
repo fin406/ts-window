@@ -73,7 +73,7 @@ function ServicesPage() {
           </p>
           <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
-              to="/book"
+              to="/contact"
               className="inline-flex items-center justify-center rounded-md bg-[var(--brand-blue)] px-6 py-3 text-sm font-semibold text-white shadow-sm hover:bg-[var(--brand-blue-dark)]"
             >
               Request a quote
